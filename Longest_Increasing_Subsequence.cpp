@@ -23,17 +23,11 @@ lld lis(lld n,lld maxx){
 
 //BOTTOM-UP
 lld lisDynamic(lld n){
-    dp1[0]=1;
+    for(lld i=0;i<n;i++) dp1[i]=1;
     for(lld i=0;i<n;i++){
-        lld maxx=a[i];
         for(lld j=1;j<n;j++){
-            if(a[j]>maxx){
-                dp1[j]=dp1[j-1]+1;
-                maxx=a[j];
-            }
-            else{
-                dp1[j]=dp1[j-1];
-                maxx=0;
+            if(a[j]<a[i]){
+                dp1[i]=max(dp1[i],dp1[j]+1);
             }
         }
     }
