@@ -5,7 +5,7 @@ using namespace std;
 #define watch(x) cout<<(#x)<<" = "<<x<<endl
 typedef long long int lld;
 
-lld a[1001],n,dp[1001][1001];
+lld a[1001],n,dp[1001][1001],dp1[1001];
 
 //TOP-DOWN
 lld lis(lld n,lld maxx){
@@ -21,6 +21,26 @@ lld lis(lld n,lld maxx){
     return dp[n][maxx]=c;
 }
 
+//BOTTOM-UP
+lld lisDynamic(lld n){
+    dp1[0]=1;
+    for(lld i=0;i<n;i++){
+        lld maxx=a[i];
+        for(lld j=1;j<n;j++){
+            if(a[j]>maxx){
+                dp1[j]=dp1[j-1]+1;
+                maxx=a[j];
+            }
+            else{
+                dp1[j]=dp1[j-1];
+                maxx=0;
+            }
+        }
+    }
+    return dp1[n-1];
+}
+
+
 
 int main() {
 	lld i,j;
@@ -29,6 +49,7 @@ int main() {
 	    cin>>a[i];
 	}
 	memset(dp,-1,sizeof(dp));
-	cout<<lis(n-1,1000)<<endl;
+	//cout<<lis(n-1,1000)<<endl;
+	cout<<lisDynamic(n)<<endl;
 	
 }
