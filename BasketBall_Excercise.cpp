@@ -5,7 +5,7 @@ using namespace std;
 #define watch(x) cout<<(#x)<<" = "<<x<<endl
 typedef long long int lld;
 
-lld n,a[100001],b[100001],dp[100001][3];
+lld n,a[100001],b[100001],dp[100001][3],dp1[100001][3];
 
 lld basketBallExcercise(lld i,lld d){
     lld c=INT_MIN;
@@ -23,6 +23,22 @@ lld basketBallExcercise(lld i,lld d){
     return dp[i][d]=c;
 }
 
+lld basketBallExcerciseDynamic(lld n){
+    lld i,j;
+    dp1[0][1]=b[0];
+    dp1[0][2]=a[0];
+    lld c=max(a[0],b[0]);
+    for(i=1;i<n;i++){
+        for(j=0;j<3;j++){
+            if(j==0) dp1[i][j]=max(dp1[i-1][1]+a[i],dp1[i-1][2]+b[i]);
+            if(j==1) dp1[i][j]=max(dp1[i-1][1],dp1[i-1][2]+b[i]);
+            if(j==2) dp1[i][j]=max(dp1[i-1][2],dp1[i-1][1]+a[i]);
+            c=max(c,dp1[i][j]);
+        }
+    }
+    return c;
+}
+
 int main() {
 	cin>>n;
 	lld i,j;
@@ -33,5 +49,7 @@ int main() {
 	    cin>>b[i];
 	}
 	memset(dp,-1,sizeof(dp));
-	cout<<basketBallExcercise(0,0)<<endl;
+	memset(dp1,0,sizeof(dp1));
+	//cout<<basketBallExcercise(0,0)<<endl;
+	cout<<basketBallExcerciseDynamic(n)<<endl;
 }
