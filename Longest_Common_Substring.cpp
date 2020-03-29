@@ -6,30 +6,20 @@ using namespace std;
 typedef long long int lld;
 
 string a,b;
-lld dp[1001][1001][2];
+lld dp[1001][1001],dp1[1001][1001];
 
 //TOP-DOWN
-lld longestCommonSubstring(lld n1 , lld n2 , bool flag){
-    lld c=INT_MIN;
-    lld f=0;
-    if(flag) f=1;
-    if(n1<0 || n2<0) return 0;
-    if(dp[n1][n2][f]!=-1) return dp[n1][n2][f];
+lld longestCommonSubstring(lld n1 , lld n2 , lld count){
+    if(n1<0 || n2<0) return dp[n1][n2]=count;
+    if(dp[n1][n2]!=-1) return dp[n1][n2];
     if(a[n1]==b[n2]){
-        c=max(c,longestCommonSubstring(n1-1,n2-1,true)+1);
+        count=longestCommonSubstring(n1-1,n2-1,count+1);
     }
-    else{
-        if(flag){
-            c=0;
-            flag=false;
-        }
-        c=max(longestCommonSubstring(n1-1,n2,false),longestCommonSubstring(n1,n2-1,false));
-    }
-    return dp[n1][n2][f]=c;
+    count=max(count,max(longestCommonSubstring(n1-1,n2,0),longestCommonSubstring(n1,n2-1,0)));
+    return dp[n1][n2]=count;
 }
-
 
 int main() {
 	cin>>a>>b;memset(dp,-1,sizeof(dp));
-	cout<<longestCommonSubstring(a.length()-1,b.length()-1,false)<<endl;
+	cout<<longestCommonSubstring(a.length()-1,b.length()-1,0)<<endl;
 }
