@@ -25,7 +25,7 @@ lld productCuttingRopeDynamic(lld n){
     dp1[1]=0;
     for(lld i=1;i<=n;i++){
         lld temp=0;
-        for(lld j=1;j<=i/2;j++){
+        for(lld j=1;j<i;j++){
             temp=max(temp,max(j*(i-j),j*dp1[i-j]));
         }
         dp1[i]=temp;
